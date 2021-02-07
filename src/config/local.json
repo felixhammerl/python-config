@@ -1,0 +1,9 @@
+{
+  "logging": {
+    "log_level": "INFO",
+    "endpoint": "https://example.log/local"
+  },
+  "other_settings": {
+    "foo": "bla"
+  }
+}

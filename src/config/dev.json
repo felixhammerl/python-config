@@ -1,0 +1,9 @@
+{
+  "logging": {
+    "log_level": "INFO",
+    "endpoint": "https://example.log/dev"
+  },
+  "other_settings": {
+    "foo": "bar"
+  }
+}
