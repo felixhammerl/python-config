@@ -1,0 +1,60 @@
+service: python-config
+useDotenv: false
+
+provider:
+  name: aws
+  region: ${self:custom.region}
+  runtime: python3.8
+  stage: ${self:custom.stage}
+  environment:
+    STAGE: ${self:custom.stage}
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  pythonRequirements:
+    dockerizePip: non-linux
+
+package:
+  exclude:
+    - test/**
+    - node_modules/**
+    - package.json
+    - package-lock.json
+    - .venv/**
+    - .editorconfig
+    - README.md
+
+functions:
+  foo:
+    role: ExecutionRole
+    handler: src/handler.foo
+
+resources:
+  Resources:
+    ExecutionRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:service}-${self:custom.stage}-execution-role
+        AssumeRolePolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${self:service}-${self:custom.stage}-execution-policy
+            PolicyDocument:
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - "*"
+
