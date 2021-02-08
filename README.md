@@ -2,6 +2,8 @@
 
 This repo demonstrates a lightweight python config suitable for multi-stage deployments in a serverless environment.
 
+For context, please see [my blog post](https://felixhammerl.com/2021/02/07/Python-Configuration.html).
+
 ## Requirements
 
     python version: 3.8
